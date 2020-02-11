@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Clock with java script" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      button {
+        font-size: 3vw;
+        padding: 20px;
+        width: 24%;
+      }
+      .container{
+        text-align: center; 
+        font-size:15vw; 
+        padding-top:10%;
+      }
+      #resetButton{
+          display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="clock" id="clock">
+        <span class="hour" id="hour"></span> :
+        <span class="minute" id="minute"></span> :
+        <span class="second" id="second"></span>
+      </div>
+
+      <div class="controls">
+        <button id="startButton" onclick="startClock()">START</button>
+        <button id="resetButton" onclick="resetClock()">RESET</button>
+      </div>
+    </div>
+  </body>
+
+  <script type="text/javascript">
+    var hr = 0,
+      min = 0,
+      sec = 0;
+    var started = false;
+    hourContent = document.getElementById("hour");
+    minuteContent = document.getElementById("minute");
+    secondContent = document.getElementById("second");
+    startButton = document.getElementById("startButton");
+    resetButton = document.getElementById("resetButton");
+
+    function setValues(hr, min, sec) {
+      if (sec <= 9) {
+        sec = "0" + Number(sec);
+      }
+      if (min <= 9) {
+        min = "0" + Number(min);
+      }
+      if (hr <= 9) {
+        hr = "0" + Number(hr);
+      }
+      secondContent.innerHTML = sec;
+      hourContent.innerHTML = hr;
+      minuteContent.innerHTML = min;
+      
+    }
+    
+    setValues(hr, min, sec);
+
+    function startClock() {
+      started = !started;
+      resetButton.style.display="inline";
+      startButton.innerHTML = "STOP";
+      if (started) {
+        clockInerval = setInterval(function() {
+          if (sec < 60) {
+            sec++;
+            if (sec == 60) {
+              sec = 0;
+
+              if (min < 60) {
+                min++;
+                if (min == 60) {
+                  min = 0;
+                  hr++;
+                }
+              }
+            }
+          }
+          setValues(hr, min, sec);
+        }, 1000);
+      } else {
+        startButton.innerHTML = "RESUME";
+        clearInterval(clockInerval);
+      }
+    }
+
+    function resetClock() {
+      hr = 0;
+      min = 0;
+      sec = 0;
+      startButton.innerHTML = "START";
+      clearInterval(clockInerval);
+      started = false;
+      setValues(hr, min, sec);
+      resetButton.style.display="none";
+    }
+  </script>
+</html>
