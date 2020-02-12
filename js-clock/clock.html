@@ -5,104 +5,105 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Clock with java script" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Document</title>
-    <style>
-      button {
-        font-size: 3vw;
-        padding: 20px;
-        width: 24%;
-      }
-      .container{
-        text-align: center; 
-        font-size:15vw; 
-        padding-top:10%;
-      }
-      #resetButton{
-          display: none;
-      }
-    </style>
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="./css/style.css" />
+    <title>TIMES</title>
   </head>
   <body>
-    <div class="container">
-      <div class="clock" id="clock">
-        <span class="hour" id="hour"></span> :
-        <span class="minute" id="minute"></span> :
-        <span class="second" id="second"></span>
+    <div class="container-fluid">
+      <nav class="row navbar navbar-expand-sm bg-dark navbar-dark">
+        <!-- Brand -->
+        <a class="navbar-brand" href="#">TIME</a>
+
+        <!-- Links -->
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="#"
+              id="stopwatchButton"
+              onclick="stopwatch();"
+              >Stopwatch</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="#"
+              id="liveTimeButton"
+              onclick="livetime();"
+              >LiveTime</a
+            >
+          </li>
+
+          <!-- Dropdown -->
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              id="timelink"
+              href="#"
+              id="navbardrop"
+              data-toggle="dropdown"
+            >
+              LIVE TIME
+            </a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="#" onclick="countryClock(5,30)"
+                >INDIA</a
+              >
+              <a class="dropdown-item" href="#" onclick="countryClock(8,0)"
+                >CHINA</a
+              >
+              <a class="dropdown-item" href="#" onclick="countryClock(1,0)"
+                >ITALY</a
+              >
+            </div>
+          </li>
+        </ul>
+      </nav>
+      <div class="row justify-content-center my-5">
+        <div class="col text-center">
+          <div class="clock" id="clock">
+            <span class="hour clock-item" id="hour"></span> :
+            <span class="minute clock-item" id="minute"></span> :
+            <span class="second clock-item" id="second"></span>
+            <span class="meridian clock-item" id="meridian">&nbsp;</span>
+          </div>
+        </div>
       </div>
 
-      <div class="controls">
-        <button id="startButton" onclick="startClock()">START</button>
-        <button id="resetButton" onclick="resetClock()">RESET</button>
+      <div class="row clock-controls text-center" id="stopwatch-controls">
+        <div class="col-auto d-inline" id="startDiv">
+          <button class="btn btn-dark" id="startButton" onclick="startClock()">
+            START
+          </button>
+        </div>
+
+        <div class="col-auto" id="resetDiv">
+          <button class="btn btn-dark" id="resetButton" onclick="resetClock()">
+            RESET
+          </button>
+        </div>
+      </div>
+
+      <div class="row clock-controls text-center" id="livetime-controls">
+        <div class="col-auto">
+          <button
+            class="btn btn-dark"
+            id="countryButton"
+            onclick="countryClock(5,30)"
+          >
+            country - india
+          </button>
+        </div>
       </div>
     </div>
   </body>
+  <!--jQuery JS-->
+  <script src="./js/jquery-3.4.1.min.js"></script>
+  <!--BS4 JS-->
+  <script src="./js/bootstrap.min.js"></script>
 
-  <script type="text/javascript">
-    var hr = 0,
-      min = 0,
-      sec = 0;
-    var started = false;
-    hourContent = document.getElementById("hour");
-    minuteContent = document.getElementById("minute");
-    secondContent = document.getElementById("second");
-    startButton = document.getElementById("startButton");
-    resetButton = document.getElementById("resetButton");
-
-    function setValues(hr, min, sec) {
-      if (sec <= 9) {
-        sec = "0" + Number(sec);
-      }
-      if (min <= 9) {
-        min = "0" + Number(min);
-      }
-      if (hr <= 9) {
-        hr = "0" + Number(hr);
-      }
-      secondContent.innerHTML = sec;
-      hourContent.innerHTML = hr;
-      minuteContent.innerHTML = min;
-      
-    }
-    
-    setValues(hr, min, sec);
-
-    function startClock() {
-      started = !started;
-      resetButton.style.display="inline";
-      startButton.innerHTML = "STOP";
-      if (started) {
-        clockInerval = setInterval(function() {
-          if (sec < 60) {
-            sec++;
-            if (sec == 60) {
-              sec = 0;
-
-              if (min < 60) {
-                min++;
-                if (min == 60) {
-                  min = 0;
-                  hr++;
-                }
-              }
-            }
-          }
-          setValues(hr, min, sec);
-        }, 1000);
-      } else {
-        startButton.innerHTML = "RESUME";
-        clearInterval(clockInerval);
-      }
-    }
-
-    function resetClock() {
-      hr = 0;
-      min = 0;
-      sec = 0;
-      startButton.innerHTML = "START";
-      clearInterval(clockInerval);
-      started = false;
-      setValues(hr, min, sec);
-      resetButton.style.display="none";
-    }
-  </script>
+  <!--custom script JS-->
+  <script src="./js/script.js"></script>
 </html>

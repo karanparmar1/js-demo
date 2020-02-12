@@ -1,0 +1,19 @@
+#resetDiv,
+.clock-controls {
+  display: none;
+}
+
+.btn{
+  font-size:2vw;
+  transition: all 2s;
+}
+
+.btn:focus{
+  border-color: aqua;
+  border-radius: 20%;
+}
+
+#clock {
+  font-size: 10vw;
+  user-select: none;
+}
