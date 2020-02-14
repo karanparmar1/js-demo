@@ -4,20 +4,28 @@ var hr = 0,
 var today = new Date();
 var utcToday = today.getUTCDate();
 var started = false;
-hourContent = document.getElementById("hour");
-minuteContent = document.getElementById("minute");
-secondContent = document.getElementById("second");
-meridianContent = document.getElementById("meridian");
-startButton = document.getElementById("startButton");
-resetButton = document.getElementById("resetButton");
-resetDiv = document.getElementById("resetDiv");
-liveTimeButton = document.getElementById("liveTimeButton");
-stopwatch_controls = document.getElementById("stopwatch-controls");
-livetime_controls = document.getElementById("livetime-controls");
+function getById(id) {
+  return document.getElementById(id);
+}
+hourContent = getById("hour");
+minuteContent = getById("minute");
+secondContent = getById("second");
+meridianContent = getById("meridian");
+startButton = getById("startButton");
+resetButton = getById("resetButton");
+resetDiv = getById("resetDiv");
+liveTimeButton = getById("liveTimeButton");
+stopwatch_controls = getById("stopwatch-controls");
+livetime_controls = getById("livetime-controls");
+lsec = getById("left-sec");
+rsec = getById("right-sec");
 var clockInterval;
 
 function show(element) {
   element.style.display = "block";
+}
+function showInline(element) {
+  element.style.display = "inline-block";
 }
 function hide(element) {
   element.style.display = "none";
@@ -32,14 +40,24 @@ function setValues(hr, min, sec) {
   sec = (sec < 10) ? "0" + Number(sec) : sec;
   hourContent.innerHTML = hr;
   minuteContent.innerHTML = min;
-  secondContent.innerHTML = sec;
-}
+  //secondContent.innerHTML = sec;
 
+
+  setContent(lsec, Math.floor(sec / 10));
+  setContent(rsec, sec % 10);
+  rsec.addEventListener('DOMSubtreeModified', changer(rsec));
+}
+function changer(element) {
+
+  var myArray = ['red', 'green', 'blue', 'black'];
+  var randomColor = myArray[(Math.random() * myArray.length) | 0];
+  element.style.backgroundColor = randomColor;
+}
 setValues(0, 0, 0);
 
 function startClock() {
   started = !started;
-  resetDiv.style.display = "inline-block";
+  showInline(resetDiv);
   startButton.innerHTML = "STOP";
   clearInterval(clockInterval);
   if (started) {
@@ -80,6 +98,7 @@ function resetClock() {
 function stopwatch() {
   hide(livetime_controls);
   show(stopwatch_controls);
+  hide(meridianContent);
   resetClock();
 }
 
@@ -99,6 +118,7 @@ function livetime() {
 function countryClock(utcHour, utcMin) {
   hide(stopwatch_controls);
   show(livetime_controls);
+  showInline(meridianContent);
   setValues(0, 0, 0);
   clearInterval(clockInterval);
   clockInterval = setInterval(function () {
@@ -113,12 +133,14 @@ function countryClock(utcHour, utcMin) {
     if (hr > 24) {
       hr -= 24;
     }
+    ampm = hr < 12 ? "AM" : "PM"
     hr = (hr == 24) ? 0 : hr;
     min = (min == 60) ? 0 : min;
     sec = (sec == 60) ? 0 : sec;
+    hr = (hr % 12 == 0) ? 12 : (hr % 12);
 
     time = Number(hr) + " : " + Number(min) + " : " + Number(sec);
-    setContent(meridianContent, hr < 12 ? "AM" : "PM");
-    setValues(hr % 12, min, sec);
+    setContent(meridianContent, ampm);
+    setValues(hr, min, sec);
   }, 1000);
 }

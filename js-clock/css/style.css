@@ -1,19 +1,30 @@
+@font-face {
+  font-family: fakehope;
+  font-style: normal;
+  src: url("../font/FakeHope.ttf") format("truetype");
+  font-display: swap;
+}
+
 #resetDiv,
 .clock-controls {
   display: none;
 }
-
-.btn{
-  font-size:2vw;
+.digit {
+  display: inline-block;
+  width: 5vw;
+}
+.btn {
+  font-size: 2vw;
   transition: all 2s;
 }
 
-.btn:focus{
+.btn:focus {
   border-color: aqua;
   border-radius: 20%;
 }
 
 #clock {
+  font-family: fakehope, Arial, Helvetica, sans-serif;
   font-size: 10vw;
   user-select: none;
 }
