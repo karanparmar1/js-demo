@@ -1,4 +1,3 @@
-
 function getById(id) {
   return document.getElementById(id);
 }
@@ -23,10 +22,10 @@ function displayItemList(itemList) {
   itemListDiv.innerHTML = "";
   itemList.forEach(function (item) {
     getById("itemCount").innerHTML = itemList.length + ' items in cart';
-    itemId = "id-" + item;
+    itemId = ("id-" + item).replace(new RegExp("\\s+", "g"), '-');
     itemListDiv.innerHTML += '<div class="row itemrow bg-silver py-2 h3 mx-auto" id="' + itemId + '">' +
       '<div class="col text-left">' + item +
-      '</div><div class="col-auto"><button class="text-danger h3 close" onclick="deleteItem(\'' + item + '\',false)">x</button> </div> </div>';
+      '</div><div class="col-auto"><button class="text-danger h3 close" onclick="confirmDelete(\'' + item + '\')">x</button> </div> </div>';
   });
 }
 function addItem() {
@@ -44,16 +43,12 @@ function addItem() {
     getById("itemToAdd").value = "";
   }
 }
-
 function deleteItem(itemName, confirm) {
-  $(".modal").modal("show");
-  itemId = "id-" + itemName;
-  popupDiv.innerHTML = ' <div class="modal-body">   <div class="h1">   <span id="itemInModal">Delete ' + itemName + ' ? </span>   </div>  </div>' +
-    '<div class="modal-footer">    <button class="btn btn-primary" data-dismiss="modal" onclick="deleteItem(\'' + itemName + '\',true)">Okay</button>' +
-    '<button class="btn btn-danger" data-dismiss="modal"> Cancel  </button> </div>';
+  console.log(itemName + "from del");
+  itemId = ("id-" + itemName).replace(new RegExp("\\s+", "g"), '-');
   if (confirm) {
     getById(itemId).remove();
-    itemList.pop(itemName);
+    itemList.splice(itemList.indexOf(itemName), 1);
     $(".modal").modal("hide");
     console.log(itemName + " removed from Cart.");
   }
@@ -61,6 +56,14 @@ function deleteItem(itemName, confirm) {
     $(".modal").modal("hide");
   }
   getById("itemCount").innerHTML = itemList.length + ' items in cart';
+}
+
+function confirmDelete(itemName) {
+  console.log(itemName + "from confirm");
+  popupDiv.innerHTML = ' <div class="modal-body">   <div class="h1">   <span id="itemInModal">Delete ' + itemName + ' ? </span>   </div>  </div>' +
+    '<div class="modal-footer">    <button class="btn btn-primary" data-dismiss="modal" onclick="deleteItem(\'' + itemName + '\',true)">Okay</button>' +
+    '<button class="btn btn-danger" data-dismiss="modal"> Cancel  </button> </div>';
+  $(".modal").modal("show");
 }
 
 function sortItems() {
@@ -72,24 +75,23 @@ function sortItems() {
 }
 
 function searchItem(item) {
-  var found = false;
+  let found = false;
   if (!isBlank(item)) {
     errorDiv.innerHTML = '';
     itemListDiv.innerHTML = "";
     for (let i = 0; i < itemList.length; i++) {
-      if (itemList[i].toLowerCase() === item.toLowerCase()) {
+      if ((itemList[i].search(new RegExp(item, "i"))) >= 0) {
         found = true;
         console.log(itemList[i] + " is found.");
-        itemId = "id-" + itemList[i];
+        itemId = ("id-" + itemList[i]).replace(new RegExp("\\s+", "g"), '-');
         errorDiv.innerHTML = "";
         itemListDiv.innerHTML += '<div class="row itemrow bg-silver py-2 h3 mx-auto" id="' + itemId + '">' +
           '<div class="col text-left" >' + itemList[i] +
-          '</div><div class="col-auto"><button class="text-danger h3 close" onclick="deleteItem(\'' + itemList[i] + '\',false)">x</button></div> </div>';
-      } else {
-        if (!found) {
-          console.log("404 : " + item + " Not Found !");
-          errorDiv.innerHTML = "404 : " + item + " Not Found !";
-        }
+          '</div><div class="col-auto"><button class="text-danger h3 close" onclick="confirmDelete(\'' + itemList[i] + '\')">x</button></div> </div>';
+      }
+      if (!found) {
+        console.log("404 : " + item + " Not Found !");
+        errorDiv.innerHTML =   item + " Not Found !";
       }
     }
   }

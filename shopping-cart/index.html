@@ -25,7 +25,7 @@
                   type="text"
                   class="form-control"
                   id="itemToAdd"
-                  placeholder="Add Items"/>
+                  placeholder="Add Items" autofocus tabindex="1"/>
                 <div class="input-group-append">
                   <button
                     class="btn btn-secondary"
@@ -45,13 +45,13 @@
                 class="form-control form-control-lg"
                 id="itemToSearch"
                 placeholder="Search For List"
-                oninput="searchItem(this.value)"/>
+                oninput="searchItem(this.value)" tabindex="2" />
             </div>
             <div class="col-auto">
               <button
                 class="btn btn-secondary btn-lg"
                 type="button"
-                onclick="sortItems()">
+                onclick="sortItems()" tabindex="3" >
                 Sort
               </button>
             </div>
