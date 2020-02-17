@@ -15,7 +15,7 @@
       <header class="bg-primary row">
         <div class="container text-light py-5">
           <div class="row">
-            <div class="col"><h1>Shopping CART</h1></div>
+            <div class="col"><h1>Shopping Cart</h1></div>
           </div>
 
           <div class="form-row">
@@ -25,14 +25,12 @@
                   type="text"
                   class="form-control"
                   id="itemToAdd"
-                  placeholder="Add Items"
-                />
+                  placeholder="Add Items"/>
                 <div class="input-group-append">
                   <button
                     class="btn btn-secondary"
                     type="button"
-                    onclick="addItem()"
-                  >
+                    onclick="addItem()">
                     Enter
                   </button>
                 </div>
@@ -47,15 +45,13 @@
                 class="form-control form-control-lg"
                 id="itemToSearch"
                 placeholder="Search For List"
-                oninput="searchItem(this.value)"
-              />
+                oninput="searchItem(this.value)"/>
             </div>
             <div class="col-auto">
               <button
                 class="btn btn-secondary btn-lg"
                 type="button"
-                onclick="sortItems()"
-              >
+                onclick="sortItems()">
                 Sort
               </button>
             </div>
@@ -64,6 +60,13 @@
       </header>
       <div class="text-center text-info">
         <div class="col" id="itemCount"></div>
+      </div>
+      <div class="modal fade">
+        <div class="modal-dialog">
+          <div class="modal-content" id="confirmation-popup">
+            <!--[BS4MODAL] Popup of Delete Confirmation content is shown with JS-->
+          </div>
+        </div>
       </div>
       <section class="container" id="itemListDiv"></section>
       <div class="text-center text-danger" id="errorDiv"></div>
