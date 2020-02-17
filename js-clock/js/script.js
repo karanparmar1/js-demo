@@ -34,15 +34,17 @@ function setContent(element, text) {
   element.innerHTML = text;
 }
 
+function twoDigit(num){
+  return (num < 10) ? "0" + Number(num) : num;
+}
+
 function setValues(hr, min, sec) {
-  hr = (hr < 10) ? "0" + Number(hr) : hr;
-  min = (min < 10) ? "0" + Number(min) : min;
-  sec = (sec < 10) ? "0" + Number(sec) : sec;
+  hr = twoDigit(hr);
+  min =  twoDigit(min);
+  sec =  twoDigit(sec);
   hourContent.innerHTML = hr;
   minuteContent.innerHTML = min;
   //secondContent.innerHTML = sec;
-
-
   setContent(lsec, Math.floor(sec / 10));
   setContent(rsec, sec % 10);
   rsec.addEventListener('DOMSubtreeModified', changer(rsec));

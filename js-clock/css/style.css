@@ -12,6 +12,7 @@
 .digit {
   display: inline-block;
   width: 5vw;
+  line-height: initial;
 }
 .btn {
   font-size: 2vw;
