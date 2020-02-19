@@ -9,14 +9,18 @@
 .clock-controls {
   display: none;
 }
+.clock-item{
+  line-height: initial;
+}
 .digit {
-  display: inline-block;
+  display: inline-flex;
   width: 5vw;
   line-height: initial;
 }
+
 .btn {
   font-size: 2vw;
-  transition: all 2s;
+  transition: all 1.5s;
 }
 
 .btn:focus {

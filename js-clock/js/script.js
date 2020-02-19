@@ -1,9 +1,11 @@
 var hr = 0,
   min = 0,
   sec = 0;
+  countries = {'india':[5,30],'china':[8,0],'italy':[1,0]};
 var today = new Date();
 var utcToday = today.getUTCDate();
 var started = false;
+var colorPlus=20;
 function getById(id) {
   return document.getElementById(id);
 }
@@ -51,9 +53,11 @@ function setValues(hr, min, sec) {
 }
 function changer(element) {
 
-  var myArray = ['red', 'green', 'blue', 'black'];
-  var randomColor = myArray[(Math.random() * myArray.length) | 0];
-  element.style.backgroundColor = randomColor;
+  // var myArray = ['red', 'green', 'blue', 'black'];
+  // var randomColor = myArray[(Math.random() * myArray.length) | 0];
+  // element.style.backgroundColor = red;
+  colorPlus=colorPlus>=254?0:colorPlus;
+  //element.style.backgroundColor = "rgb("+ ++colorPlus +","+ Number(  ++colorPlus) +",0)";
 }
 setValues(0, 0, 0);
 
@@ -78,7 +82,7 @@ function startClock() {
         }
       }
       setValues(hr, min, sec);
-    }, 1000);
+    }, 100);
   } else {
     started = false;
     startButton.innerHTML = "RESUME";
