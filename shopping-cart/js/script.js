@@ -2,11 +2,14 @@ function getById(id) {
   return document.getElementById(id);
 }
 
+function setItem(itemId, oldValue) {
+  console.log("setItem:" + itemId + " " + oldValue);
+  var item = getById(itemId);
+  itemList[itemList.findIndex(function(value){return value==oldValue;})] = item.value;
+}
+
 function isBlank(value) {
-  return (value.trim() == null ||
-    value.trim() == undefined ||
-    value.trim() == ' ' ||
-    value.trim().length == 0);
+  return !value?.trim();
 }
 
 let itemList = [];
@@ -18,11 +21,13 @@ itemToAdd.addEventListener("keydown", function (e) {
   if (e.keyCode === 13) { addItem(); }
 });
 
+function handleEnter(e) { if (e.keyCode === 13 && !isBlank(e.target.value)) { setItem(e.target.id); } }
+
 function setItemDiv(item, itemId) {
   //itemId = ("id-" + item).replace(new RegExp("\\s+", "g"), '-');
   return '<div class="row itemrow bg-silver py-2 my-1 mx-auto" id="' + itemId + '"  >' +
     '<div class="col text-left h3 ">' +
-    '<input type="text" class="itemText input" id="txt-' + itemId + '" value="' + item + '" readonly="true"  onchange="editItem(\'txt-' + itemId + '\')" ondblclick="editItem(\'txt-' + itemId + '\');" onblur="setItem(\'txt-' + itemId + '\',this.value);"></div>' +
+    '<input type="text" class="itemText input" id="txt-' + itemId + '" value="' + item + '" readonly="true" onkeydown="handleEnter(event)" onchange="editItem(\'txt-' + itemId + '\')" ondblclick="editItem(\'txt-' + itemId + '\');" onblur="setItem(\'txt-' + itemId + '\',this.value);" autofocus /></div>' +
     '<div class="col-auto btn-action">' +
     '<button class="btn btn-warning" id="edit-'+itemId+'" onclick="editItem(\'txt-' + itemId + '\');" >Edit</button>' +
     '<button class="btn btn-danger" onclick="confirmDelete(\'' + item + '\',\'' + itemId + '\');" >x</button>' +
@@ -125,10 +130,4 @@ function editItem(itemId) {
   item.readOnly = false;
   setItem(itemId, oldValue);
   console.log("editItem:" + itemId + " " + oldValue)
-}
-
-function setItem(itemId, oldValue) {
-  console.log("setItem:" + itemId + " " + oldValue);
-  var item = getById(itemId);
-  itemList[itemList.findIndex(function(value){return value==oldValue;})] = itemId.value;
 }
